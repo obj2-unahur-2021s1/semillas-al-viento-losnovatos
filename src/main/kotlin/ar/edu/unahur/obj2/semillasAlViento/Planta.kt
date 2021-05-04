@@ -1,6 +1,6 @@
 package ar.edu.unahur.obj2.semillasAlViento
 
-abstract class Planta(val anioObtencionSemilla: Int, var altura: Float) {//la altura no deberia cambiar nunca,tendria que ser val.
+abstract class Planta(val anioObtencionSemilla: Int, var altura: Float) {// mutacion controlada:la altura no deberia cambiar nunca,tendria que ser val.
   fun esFuerte() = this.horasDeSolQueTolera() > 10
 
   fun parcelaTieneComplicaciones(parcela: Parcela) =

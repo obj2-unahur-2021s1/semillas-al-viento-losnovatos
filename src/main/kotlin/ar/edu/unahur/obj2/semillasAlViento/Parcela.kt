@@ -2,7 +2,7 @@ package ar.edu.unahur.obj2.semillasAlViento
 
 class Parcela(val ancho: Int, val largo: Int, val horasSolPorDia: Int) {
   val plantas = mutableListOf<Planta>()
-  var cantidadPlantas = 0// innecesario, se podria obtener preguntandole el size a la lista de plantas.
+  var cantidadPlantas = 0// un poco bastante redundante.. completamente innecesario, se podria obtener preguntandole el size a la lista de plantas.
 
   fun superficie() = ancho * largo
   fun cantidadMaximaPlantas() =
@@ -21,7 +21,7 @@ class Parcela(val ancho: Int, val largo: Int, val horasSolPorDia: Int) {
 }
 
 class Agricultora(val parcelas: MutableList<Parcela>) {
-  var ahorrosEnPesos = 20000
+  var ahorrosEnPesos = 20000// robustez: las tierras no se pueden comprar, ni la agricultora tiene ahorros. genera informacion erratica.
 
   // Suponemos que una parcela vale 5000 pesos
   fun comprarParcela(parcela: Parcela) {
@@ -31,7 +31,7 @@ class Agricultora(val parcelas: MutableList<Parcela>) {
     }
   }
 
-  fun parcelasSemilleras() =
+  fun parcelasSemilleras() =// diuh, asquito.
     parcelas.filter {
       parcela -> parcela.plantas.all {
         planta -> planta.daSemillas()
@@ -39,7 +39,7 @@ class Agricultora(val parcelas: MutableList<Parcela>) {
     }
 
   fun plantarEstrategicamente(planta: Planta) {
-    val laElegida = parcelas.maxBy { it.cantidadMaximaPlantas() - it.cantidadPlantas }!!//falta que la parcela cumpla las condiciones de la planta. el nombre laElegida es horrible, no se sabe de que habla.
+    val laElegida = parcelas.maxBy { it.cantidadMaximaPlantas() - it.cantidadPlantas }!!//falta que la parcela cumpla las condiciones de la planta. SIMPLICIDAD:el nombre laElegida es horrible, no se sabe de que habla.
     laElegida.plantas.add(planta)//esto estaria bueno implementarlo aparte, parcelaEsIdealPara(planta)
   }
 }

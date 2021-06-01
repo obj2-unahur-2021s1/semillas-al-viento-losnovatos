@@ -1,5 +1,6 @@
 package ar.edu.unahur.obj2.semillasAlViento
 
+import io.kotest.assertions.throwables.shouldThrowAny
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
@@ -11,7 +12,7 @@ class PlantaTest : DescribeSpec({
         val menta = Menta(2020, 1f)
         val soja = Soja(2009, 0.6f, false)
         val sojaTransgenica = Soja(2009, 0.9f, true)
-        val parcela = Parcela(20, 30, 8)
+        val parcela = Parcela(20, 30, 9)
         val agricultora = Agricultora(mutableListOf<Parcela>())
         agricultora.parcelas.add(parcela)
 
@@ -67,6 +68,19 @@ class PlantaTest : DescribeSpec({
             it("es semillera") {
                 agricultora.parcelasSemilleras().shouldContainExactly(parcela)
             }
+            // no se puede realizar correctamente el test de plantar debido a que no arroja un error
+            // la manera correcta de testearlo es la siguiente:
+            /*it("no permite plantar mas plantas si esta llena") {
+                repeat(230) {parcela.plantar(menta)}
+                shouldThrowAny { parcela.plantar(menta) }
+            }*/
+
+            // lo mismo sucede ssi queremos testear el otro error cuando las horas de sol de la Parcela
+            // supera por 2 o mas a la cantidad de horas de sol que tolera la planta.
+            // la manera correcta de testearlo es la siguiente:
+            /*it("no permite plantas si la parcela recibe al menos 2 horas mas de sol que lo que la planta tolera") {
+                shouldThrowAny { parcela.plantar(menta) }
+            }*/
         }
 
         describe("Una agricultora") {

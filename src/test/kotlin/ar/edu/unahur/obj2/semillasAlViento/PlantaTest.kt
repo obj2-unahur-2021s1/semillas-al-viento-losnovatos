@@ -3,6 +3,7 @@ package ar.edu.unahur.obj2.semillasAlViento
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 
 class PlantaTest : DescribeSpec({
@@ -10,8 +11,9 @@ class PlantaTest : DescribeSpec({
         val menta = Menta(2020, 1f)
         val soja = Soja(2009, 0.6f, false)
         val sojaTransgenica = Soja(2009, 0.9f, true)
-        val plantas = mutableListOf<Planta>()
         val parcela = Parcela(20, 30, 8)
+        val agricultora = Agricultora(mutableListOf<Parcela>())
+        agricultora.parcelas.add(parcela)
 
         describe("Una menta") {
             describe("que tolera 6 horas de sol al día") {
@@ -49,14 +51,31 @@ class PlantaTest : DescribeSpec({
             it("tiene 600m de superficie ") {
                 parcela.superficie().shouldBe(600)
             }
-            it("tolera 230 plantas como cantidad maxima") {
+            it("tolera 230 plantas como maximo") {
                 parcela.cantidadMaximaPlantas().shouldBe(230)
             }
             // no se puede realizar el test de tieneComplicaciones de manera correcta,
             // debido a que no está implementado en la clase Parcela dicho método
             // se puede testear de la siguiente manera:
             it("tiene complicaciones") {
-                menta.parcelaTieneComplicaciones(parcela)
+                parcela.plantas.add(menta)
+                menta.parcelaTieneComplicaciones(parcela).shouldBeTrue()
+            }
+            // no se puede realizar el test de esSemillera de manera correcta
+            // debido a que no está implementado en la clase Parcela,
+            // se puede testear de la siguiente manera:
+            it("es semillera") {
+                agricultora.parcelasSemilleras().shouldContainExactly(parcela)
+            }
+        }
+
+        describe("Una agricultora") {
+            val parcelaMasOcupada = Parcela(1, 2, 5)
+            parcelaMasOcupada.plantas.add(menta)
+            parcelaMasOcupada.plantas.add(soja)
+            it("planta estrategicamente una soja transgenica en parcela mas libre") {
+                agricultora.plantarEstrategicamente(sojaTransgenica)
+                parcela.plantas.shouldContainExactly(sojaTransgenica)
             }
         }
     }

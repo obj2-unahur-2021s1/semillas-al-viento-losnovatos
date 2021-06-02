@@ -2,8 +2,7 @@ package ar.edu.unahur.obj2.semillasAlViento
 
 class Parcela(val ancho: Int, val largo: Int, val horasSolPorDia: Int) {
   val plantas = mutableListOf<Planta>()
-  var cantidadPlantas = 0 // un poco bastante redundante.. completamente innecesario, se podria obtener preguntandole el size a la lista de plantas. Redundancia Mínima.
-
+  var cantidadPlantas =plantas.size
   fun superficie() = ancho * largo
   fun cantidadMaximaPlantas() =
     if (ancho > largo) ancho * largo / 5 else ancho * largo / 3 + largo //no se está utilizando el método superficie(). Redundancia Mínima.
@@ -15,7 +14,6 @@ class Parcela(val ancho: Int, val largo: Int, val horasSolPorDia: Int) {
       error("No se puede plantar esto acá, se va a quemar") // esto está mal, reporta el error como un mensaje en consola. Afecta la Robustez, debe arrojar un error.
     } else {
       plantas.add(planta)
-      cantidadPlantas += 1 // la cantidad de plantas dijimos que se puede consultar con el size. Redundancia Mínima.
     }
   }
 

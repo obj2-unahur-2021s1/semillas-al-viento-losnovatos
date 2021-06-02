@@ -70,17 +70,17 @@ class PlantaTest : DescribeSpec({
             }
             // no se puede realizar correctamente el test de plantar debido a que no arroja un error
             // la manera correcta de testearlo es la siguiente:
-            /*it("no permite plantar mas plantas si esta llena") {
-                repeat(230) {parcela.plantar(menta)}
+            it("no permite plantar mas plantas si esta llena") {
+                repeat(230) {parcela.plantar(soja)}
                 shouldThrowAny { parcela.plantar(menta) }
-            }*/
+            }
 
             // lo mismo sucede ssi queremos testear el otro error cuando las horas de sol de la Parcela
             // supera por 2 o mas a la cantidad de horas de sol que tolera la planta.
             // la manera correcta de testearlo es la siguiente:
-            /*it("no permite plantas si la parcela recibe al menos 2 horas mas de sol que lo que la planta tolera") {
+            it("no permite plantas si la parcela recibe al menos 2 horas mas de sol que lo que la planta tolera") {
                 shouldThrowAny { parcela.plantar(menta) }
-            }*/
+            }
         }
 
         describe("Una agricultora") {

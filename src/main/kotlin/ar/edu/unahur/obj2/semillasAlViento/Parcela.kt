@@ -10,9 +10,9 @@ class Parcela(val ancho: Int, val largo: Int, val horasSolPorDia: Int) {
 
   fun plantar(planta: Planta) {
     if (cantidadPlantas == this.cantidadMaximaPlantas()) {
-      println("Ya no hay lugar en esta parcela") // esto está mal, reporta el error como un mensaje en consola. Afecta la Robustez, debe arrojar un error.
+      error("Ya no hay lugar en esta parcela") // esto está mal, reporta el error como un mensaje en consola. Afecta la Robustez, debe arrojar un error.
     } else if (horasSolPorDia > planta.horasDeSolQueTolera() + 2) {
-      println("No se puede plantar esto acá, se va a quemar") // esto está mal, reporta el error como un mensaje en consola. Afecta la Robustez, debe arrojar un error.
+      error("No se puede plantar esto acá, se va a quemar") // esto está mal, reporta el error como un mensaje en consola. Afecta la Robustez, debe arrojar un error.
     } else {
       plantas.add(planta)
       cantidadPlantas += 1 // la cantidad de plantas dijimos que se puede consultar con el size. Redundancia Mínima.

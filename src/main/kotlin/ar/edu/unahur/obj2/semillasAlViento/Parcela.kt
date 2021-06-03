@@ -2,7 +2,7 @@ package ar.edu.unahur.obj2.semillasAlViento
 
 class Parcela(val ancho: Int, val largo: Int, val horasSolPorDia: Int) {
   val plantas = mutableListOf<Planta>()
-  var cantidadPlantas =plantas.size
+  var cantidadPlantas =plantas.size // no hace falta utilizar una variable para esto.
   fun superficie() = ancho * largo
   fun cantidadMaximaPlantas() =
     if (ancho > largo) superficie() / 5 else superficie() / 3 + largo
@@ -16,30 +16,16 @@ class Parcela(val ancho: Int, val largo: Int, val horasSolPorDia: Int) {
       plantas.add(planta)
     }
   }
-  fun tieneComplicaciones() =
-    plantas.any { it.horasDeSolQueTolera() < horasSolPorDia }
+  fun tieneComplicaciones() = plantas.any { it.horasDeSolQueTolera() < horasSolPorDia }
+  fun esSemillera() = plantas.all { planta -> planta.daSemillas() }
 }
 
-class Agricultora(val parcelas: MutableList<Parcela> /*debería ser inmutable la lista, ya que no se pueden comprar ni vender*/) {
-  var ahorrosEnPesos = 20000// robustez: las tierras no se pueden comprar, ni la agricultora tiene ahorros. genera informacion erratica.
+class Agricultora(val parcelas: List<Parcela>) {
 
-  // Suponemos que una parcela vale 5000 pesos
-  fun comprarParcela(parcela: Parcela) {
-    if (ahorrosEnPesos >= 5000) {
-      parcelas.add(parcela)
-      ahorrosEnPesos -= 5000
-    }
-  } //Simplicidad. No se requiere en ningún momento esta función y se aclara que para este ejercicio no se venden ni se compran parcelas.
-
-  fun parcelasSemilleras() =// diuh, asquito. (Des)Acoplamiento. El calculo esSemillera() debería estar en la Parcela.
-    parcelas.filter {
-      parcela -> parcela.plantas.all {
-        planta -> planta.daSemillas()
-      }
-    }
+  fun parcelasSemilleras() = parcelas.filter { parcela -> parcela.esSemillera() }
 
   fun plantarEstrategicamente(planta: Planta) {
-    val laElegida = parcelas.maxBy { it.cantidadMaximaPlantas() - it.cantidadPlantas }!!//falta que la parcela cumpla las condiciones de la planta. Cohesión: ésto de buscar la parcela debería estar en otro método.
-    laElegida.plantas.add(planta)//acá no está utilizando el método plantar(planta) que hace lo mismo, pero con las restricciones de la parcela. Acomplamiento.
+    this.parcelaMasLibre().plantar(planta)
   }
+  fun parcelaMasLibre() = parcelas.maxBy { it.cantidadMaximaPlantas() - it.cantidadPlantas }!!
 }

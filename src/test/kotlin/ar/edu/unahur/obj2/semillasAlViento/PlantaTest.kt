@@ -13,8 +13,7 @@ class PlantaTest : DescribeSpec({
         val soja = Soja(2009, 0.6f, false)
         val sojaTransgenica = Soja(2009, 0.9f, true)
         val parcela = Parcela(20, 30, 9)
-        val agricultora = Agricultora(mutableListOf<Parcela>())
-        agricultora.parcelas.add(parcela)
+        val agricultora = Agricultora(listOf<Parcela>(parcela))
 
         describe("Una menta") {
             describe("que tolera 6 horas de sol al día") {
@@ -55,29 +54,21 @@ class PlantaTest : DescribeSpec({
             it("tolera 230 plantas como maximo") {
                 parcela.cantidadMaximaPlantas().shouldBe(230)
             }
-            // no se puede realizar el test de tieneComplicaciones de manera correcta,
-            // debido a que no está implementado en la clase Parcela dicho método
-            // se puede testear de la siguiente manera:
             it("tiene complicaciones") {
                 parcela.plantas.add(menta)
                 parcela.tieneComplicaciones().shouldBeTrue()
             }
-            // no se puede realizar el test de esSemillera de manera correcta
-            // debido a que no está implementado en la clase Parcela,
-            // se puede testear de la siguiente manera:
-            it("es semillera") {
-                agricultora.parcelasSemilleras().shouldContainExactly(parcela)
+            it("NO tiene complicaciones") {
+                parcela.plantar(sojaTransgenica)
+                parcela.tieneComplicaciones().shouldBeFalse()
             }
-            // no se puede realizar correctamente el test de plantar debido a que no arroja un error
-            // la manera correcta de testearlo es la siguiente:
+            it("es semillera") {
+                parcela.esSemillera().shouldBeTrue()
+            }
             it("no permite plantar mas plantas si esta llena") {
                 repeat(230) {parcela.plantar(soja)}
                 shouldThrowAny { parcela.plantar(menta) }
             }
-
-            // lo mismo sucede ssi queremos testear el otro error cuando las horas de sol de la Parcela
-            // supera por 2 o mas a la cantidad de horas de sol que tolera la planta.
-            // la manera correcta de testearlo es la siguiente:
             it("no permite plantas si la parcela recibe al menos 2 horas mas de sol que lo que la planta tolera") {
                 shouldThrowAny { parcela.plantar(menta) }
             }
@@ -90,6 +81,9 @@ class PlantaTest : DescribeSpec({
             it("planta estrategicamente una soja transgenica en parcela mas libre") {
                 agricultora.plantarEstrategicamente(sojaTransgenica)
                 parcela.plantas.shouldContainExactly(sojaTransgenica)
+            }
+            it("conoce las parcelas semilleras") {
+                agricultora.parcelasSemilleras()
             }
         }
     }

@@ -1,15 +1,15 @@
 package ar.edu.unahur.obj2.semillasAlViento
 
-abstract class Planta(val anioObtencionSemilla: Int, var altura: Float) {// mutacion controlada:la altura no deberia cambiar nunca,tendria que ser val.
+abstract class Planta(val anioObtencionSemilla: Int, val altura: Float) {
   fun esFuerte() = this.horasDeSolQueTolera() > 10
 
   abstract fun horasDeSolQueTolera(): Int
-  abstract fun daSemillas(): Boolean//el es fuerte es condicion para todas, por lo tanto se podria poner aca y usar un super en la sub con la otra condición. -> Redundancia Mínima
+  open fun daSemillas() = this.esFuerte()//el es fuerte es condicion para todas, por lo tanto se podria poner aca y usar un super en la sub con la otra condición. -> Redundancia Mínima
 }
 
 class Menta(anioObtencionSemilla: Int, altura: Float) : Planta(anioObtencionSemilla, altura) {
   override fun horasDeSolQueTolera() = 6
-  override fun daSemillas() = this.esFuerte() || altura > 0.4
+  override fun daSemillas() = super.daSemillas() || altura > 0.4
 }
 
 class Soja(anioObtencionSemilla: Int, altura: Float, val esTransgenica: Boolean /* la SojaTransgenica debería ser otra clase que sea del tipo Soja.*/ ) : Planta(anioObtencionSemilla, altura) {
@@ -31,6 +31,6 @@ class Soja(anioObtencionSemilla: Int, altura: Float, val esTransgenica: Boolean 
       return false
     }
 
-    return this.esFuerte() || (this.anioObtencionSemilla > 2007 && this.altura > 1)
+    return super.daSemillas() || (this.anioObtencionSemilla > 2007 && this.altura > 1)
   }
 }

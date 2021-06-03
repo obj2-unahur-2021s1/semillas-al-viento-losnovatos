@@ -4,7 +4,7 @@ abstract class Planta(val anioObtencionSemilla: Int, val altura: Float) {
   fun esFuerte() = this.horasDeSolQueTolera() > 10
 
   abstract fun horasDeSolQueTolera(): Int
-  open fun daSemillas() = this.esFuerte()//el es fuerte es condicion para todas, por lo tanto se podria poner aca y usar un super en la sub con la otra condición. -> Redundancia Mínima
+  open fun daSemillas() = this.esFuerte()
 }
 
 class Menta(anioObtencionSemilla: Int, altura: Float) : Planta(anioObtencionSemilla, altura) {
@@ -12,7 +12,7 @@ class Menta(anioObtencionSemilla: Int, altura: Float) : Planta(anioObtencionSemi
   override fun daSemillas() = super.daSemillas() || altura > 0.4
 }
 
-class Soja(anioObtencionSemilla: Int, altura: Float, val esTransgenica: Boolean /* la SojaTransgenica debería ser otra clase que sea del tipo Soja.*/ ) : Planta(anioObtencionSemilla, altura) {
+open class Soja(anioObtencionSemilla: Int, altura: Float) : Planta(anioObtencionSemilla, altura) {
   override fun horasDeSolQueTolera(): Int  {
     // ¡Magia de Kotlin! El `when` es como un `if` pero más poderoso:
     // evalúa cada línea en orden y devuelve lo que está después de la flecha.
@@ -21,16 +21,13 @@ class Soja(anioObtencionSemilla: Int, altura: Float, val esTransgenica: Boolean 
       altura < 1    -> 7
       else          -> 9
     }
-
-    return if (esTransgenica) horasBase * 2 else horasBase
+    return horasBase
   }
 
+  override fun daSemillas() = super.daSemillas() || (this.anioObtencionSemilla > 2007 && this.altura > 1)
+}
 
-  override fun daSemillas(): Boolean  {
-    if (this.esTransgenica) {
-      return false
-    }
-
-    return super.daSemillas() || (this.anioObtencionSemilla > 2007 && this.altura > 1)
-  }
+class Transgenica(anioObtencionSemilla: Int, altura: Float) : Soja(anioObtencionSemilla, altura) {
+  override fun horasDeSolQueTolera() = super.horasDeSolQueTolera() * 2
+  override fun daSemillas() = false
 }

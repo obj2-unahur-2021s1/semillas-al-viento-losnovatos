@@ -10,8 +10,8 @@ import io.kotest.matchers.shouldBe
 class PlantaTest : DescribeSpec({
     describe("INTA") {
         val menta = Menta(2020, 1f)
-        val soja = Soja(2009, 0.6f, false)
-        val sojaTransgenica = Soja(2009, 0.9f, true)
+        val soja = Soja(2009, 0.6f)
+        val sojaTransgenica = Transgenica(2009, 0.9f)
         val parcela = Parcela(20, 30, 9)
         val agricultora = Agricultora(listOf<Parcela>(parcela))
 

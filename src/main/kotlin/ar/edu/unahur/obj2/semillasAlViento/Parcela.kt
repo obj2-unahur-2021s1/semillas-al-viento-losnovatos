@@ -5,13 +5,13 @@ class Parcela(val ancho: Int, val largo: Int, val horasSolPorDia: Int) {
   var cantidadPlantas =plantas.size
   fun superficie() = ancho * largo
   fun cantidadMaximaPlantas() =
-    if (ancho > largo) ancho * largo / 5 else ancho * largo / 3 + largo //no se está utilizando el método superficie(). Redundancia Mínima.
+    if (ancho > largo) superficie() / 5 else superficie() / 3 + largo
 
   fun plantar(planta: Planta) {
     if (cantidadPlantas == this.cantidadMaximaPlantas()) {
-      error("Ya no hay lugar en esta parcela") // esto está mal, reporta el error como un mensaje en consola. Afecta la Robustez, debe arrojar un error.
+      error("Ya no hay lugar en esta parcela")
     } else if (horasSolPorDia > planta.horasDeSolQueTolera() + 2) {
-      error("No se puede plantar esto acá, se va a quemar") // esto está mal, reporta el error como un mensaje en consola. Afecta la Robustez, debe arrojar un error.
+      error("No se puede plantar esto acá, se va a quemar")
     } else {
       plantas.add(planta)
     }

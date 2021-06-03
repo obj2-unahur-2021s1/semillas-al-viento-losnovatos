@@ -60,7 +60,7 @@ class PlantaTest : DescribeSpec({
             // se puede testear de la siguiente manera:
             it("tiene complicaciones") {
                 parcela.plantas.add(menta)
-                menta.parcelaTieneComplicaciones(parcela).shouldBeTrue()
+                parcela.tieneComplicaciones().shouldBeTrue()
             }
             // no se puede realizar el test de esSemillera de manera correcta
             // debido a que no está implementado en la clase Parcela,

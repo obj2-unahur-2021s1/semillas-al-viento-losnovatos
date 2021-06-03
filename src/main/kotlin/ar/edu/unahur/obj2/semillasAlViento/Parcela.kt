@@ -16,8 +16,8 @@ class Parcela(val ancho: Int, val largo: Int, val horasSolPorDia: Int) {
       plantas.add(planta)
     }
   }
-
-  // FALTA IMPLEMENTACION DE TIENE COMPLICACIONES. Al estar hecha en la clase Planta, afecta la Cohesión.
+  fun tieneComplicaciones() =
+    plantas.any { it.horasDeSolQueTolera() < horasSolPorDia }
 }
 
 class Agricultora(val parcelas: MutableList<Parcela> /*debería ser inmutable la lista, ya que no se pueden comprar ni vender*/) {

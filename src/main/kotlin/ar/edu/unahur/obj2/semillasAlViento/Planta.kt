@@ -3,10 +3,6 @@ package ar.edu.unahur.obj2.semillasAlViento
 abstract class Planta(val anioObtencionSemilla: Int, var altura: Float) {// mutacion controlada:la altura no deberia cambiar nunca,tendria que ser val.
   fun esFuerte() = this.horasDeSolQueTolera() > 10
 
-  fun parcelaTieneComplicaciones(parcela: Parcela) =
-    parcela.plantas.any { it.horasDeSolQueTolera() < parcela.horasSolPorDia }
-  // este metodo debería estar en la clase de Parcela, no es responsabilidad de la Planta. Cohesión.
-
   abstract fun horasDeSolQueTolera(): Int
   abstract fun daSemillas(): Boolean//el es fuerte es condicion para todas, por lo tanto se podria poner aca y usar un super en la sub con la otra condición. -> Redundancia Mínima
 }

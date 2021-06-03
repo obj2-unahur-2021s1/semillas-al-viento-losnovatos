@@ -13,7 +13,8 @@ class PlantaTest : DescribeSpec({
         val soja = Soja(2009, 0.6f)
         val sojaTransgenica = Transgenica(2009, 0.9f)
         val parcela = Parcela(20, 30, 9)
-        val agricultora = Agricultora(listOf<Parcela>(parcela))
+        val parcelaMasOcupada = Parcela(1, 2, 5)
+        val agricultora = Agricultora(listOf<Parcela>(parcela, parcelaMasOcupada))
 
         describe("Una menta") {
             describe("que tolera 6 horas de sol al día") {
@@ -75,7 +76,6 @@ class PlantaTest : DescribeSpec({
         }
 
         describe("Una agricultora") {
-            val parcelaMasOcupada = Parcela(1, 2, 5)
             parcelaMasOcupada.plantas.add(menta)
             parcelaMasOcupada.plantas.add(soja)
             it("planta estrategicamente una soja transgenica en parcela mas libre") {
@@ -83,7 +83,8 @@ class PlantaTest : DescribeSpec({
                 parcela.plantas.shouldContainExactly(sojaTransgenica)
             }
             it("conoce las parcelas semilleras") {
-                agricultora.parcelasSemilleras()
+                repeat(5) {parcela.plantas.add(menta)}
+                agricultora.parcelasSemilleras().shouldContainExactly(parcela)
             }
         }
     }
